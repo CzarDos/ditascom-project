@@ -1,0 +1,236 @@
+/* Custom Shepherd.js Tour Styling for DITASCOM */
+
+.shepherd-theme-custom {
+    max-width: 400px;
+}
+
+.shepherd-element {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.shepherd-header {
+    padding: 20px 20px 0;
+}
+
+.shepherd-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a237e;
+    margin: 0;
+}
+
+.shepherd-text {
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.shepherd-text p {
+    margin: 0 0 10px;
+}
+
+.shepherd-text p:last-child {
+    margin-bottom: 0;
+}
+
+.shepherd-text ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.shepherd-text li {
+    margin: 4px 0;
+}
+
+.shepherd-footer {
+    padding: 0 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.shepherd-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    outline: none;
+}
+
+.shepherd-button:not(.shepherd-button-secondary) {
+    background: #1a237e;
+    color: white;
+}
+
+.shepherd-button:not(.shepherd-button-secondary):hover {
+    background: #0d1642;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+}
+
+.shepherd-button-secondary {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.shepherd-button-secondary:hover {
+    background: #e5e7eb;
+}
+
+.shepherd-cancel-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+
+.shepherd-cancel-icon:hover {
+    color: #374151;
+}
+
+.shepherd-modal-overlay-container {
+    z-index: 9998;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+    opacity: 0.5;
+}
+
+/* Arrow styling */
+.shepherd-arrow {
+    width: 16px;
+    height: 16px;
+    background: white;
+    transform: rotate(45deg);
+}
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow {
+    bottom: -8px;
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
+    top: -8px;
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow {
+    right: -8px;
+}
+
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow {
+    left: -8px;
+}
+
+/* Help Tour Button Styling */
+.help-tour-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1a237e;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(26, 35, 126, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.help-tour-btn:hover {
+    background: #0d1642;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(26, 35, 126, 0.5);
+}
+
+.help-tour-btn:active {
+    transform: scale(0.95);
+}
+
+/* Tooltip for help button */
+.help-tour-btn::before {
+    content: 'Help Tour';
+    position: absolute;
+    right: 70px;
+    background: #1f2937;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.help-tour-btn:hover::before {
+    opacity: 1;
+}
+
+/* Pulse animation for first-time users */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.help-tour-btn.first-time::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #1a237e;
+    animation: pulse-ring 1.5s infinite;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .shepherd-theme-custom {
+        max-width: calc(100vw - 40px);
+    }
+
+    .help-tour-btn {
+        width: 48px;
+        height: 48px;
+        bottom: 16px;
+        right: 16px;
+        font-size: 20px;
+    }
+
+    .help-tour-btn::before {
+        right: 60px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Highlight effect for tour targets */
+.shepherd-target {
+    position: relative;
+    z-index: 9999;
+}
+
+.shepherd-enabled.shepherd-target {
+    pointer-events: auto;
+}

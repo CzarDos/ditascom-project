@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DITASCOM - User Tour Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #1a237e;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        h3 {
+            color: #1a237e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        .step {
+            background: #f8fafc;
+            border-left: 4px solid #1a237e;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #1a237e;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .tip::before {
+            content: "💡 Tip: ";
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .warning::before {
+            content: "⚠️ Note: ";
+            font-weight: bold;
+            color: #f57c00;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .button-demo {
+            display: inline-block;
+            background: #1a237e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 10px 0;
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+        .help-button-demo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #1a237e;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 10px;
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.4);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 5px;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-processing {
+            background: #e0e7ff;
+            color: #5b21b6;
+        }
+        .status-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-completed {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 DITASCOM User Guide</h1>
+            <p class="subtitle">Your Complete Guide to Requesting Church Certificates</p>
+        </header>
+
+        <div class="card">
+            <h2>🚀 Getting Started</h2>
+            <p>Welcome to DITASCOM! This guide will help you navigate the system and request your church certificates easily.</p>
+            
+            <div class="tip">
+                When you first log in, an interactive tour will automatically start. Follow the guided steps to learn the system quickly!
+            </div>
+
+            <h3>The Help Tour Button</h3>
+            <p>Look for this button on every page:</p>
+            <div class="help-button-demo">?</div>
+            <p>Click it anytime to restart the guided tour and refresh your memory on how to use the system.</p>
+        </div>
+
+        <div class="card">
+            <h2>📋 How to Request a Certificate</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Go to Dashboard</strong>
+                <p>After logging in, you'll see your dashboard with all your certificate requests.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Click "New Request"</strong>
+                <p>Find the blue "New Request" button in the top right corner of your dashboard.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Select Certificate Type</strong>
+                <p>Choose from:</p>
+                <ul>
+                    <li><strong>Baptismal Certificate</strong> - For baptism records</li>
+                    <li><strong>Confirmation Certificate</strong> - For confirmation records</li>
+                    <li><strong>Death Certificate</strong> - For death records</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Fill in Details</strong>
+                <p>Provide accurate information:</p>
+                <ul>
+                    <li>Who the certificate is for (yourself or someone else)</li>
+                    <li>Personal information</li>
+                    <li>Purpose of request</li>
+                    <li>Parish where the sacrament was administered</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Upload ID</strong>
+                <p>Upload a clear photo of your valid ID for verification.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">6</span>
+                <strong>Submit Request</strong>
+                <p>Review all information and click "Submit Request".</p>
+            </div>
+
+            <div class="warning">
+                Make sure all information matches church records exactly. Incorrect information may delay processing.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💳 Payment Process</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Review Payment Details</strong>
+                <p>After submitting your request, you'll be redirected to the payment page. Review your request summary.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Choose Payment Method</strong>
+                <p>Select your preferred payment option:</p>
+                <ul>
+                    <li>Credit/Debit Card</li>
+                    <li>Online Banking</li>
+                    <li>E-Wallet (GCash, PayMaya)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Complete Payment</strong>
+                <p>Enter your payment details and submit.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Wait for Processing</strong>
+                <p>Your request will be processed within 2-3 business days.</p>
+            </div>
+
+            <div class="tip">
+                Keep your reference number safe! You'll need it to track your request.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Understanding Request Status</h2>
+            <p>Your certificate request goes through several stages:</p>
+
+            <div style="margin: 20px 0;">
+                <span class="status-badge status-pending">⏰ Pending</span>
+                <p style="margin: 10px 0;">Your request is waiting for admin review.</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <span class="status-badge status-processing">⚙️ Processing</span>
+                <p style="margin: 10px 0;">Your certificate is being prepared by the parish office.</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <span class="status-badge status-ready">📥 Ready</span>
+                <p style="margin: 10px 0;">Your certificate is ready for download!</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <span class="status-badge status-completed">✅ Completed</span>
+                <p style="margin: 10px 0;">You've downloaded your certificate and the request is closed.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔍 Finding Your Requests</h2>
+            
+            <h3>Search Function</h3>
+            <p>Use the search bar on your dashboard to find specific requests by certificate type or reference number.</p>
+
+            <h3>Filter by Status</h3>
+            <p>Click the filter buttons to view requests by status:</p>
+            <ul>
+                <li><strong>All</strong> - View all requests</li>
+                <li><strong>Pending</strong> - Awaiting review</li>
+                <li><strong>Processing</strong> - Being prepared</li>
+                <li><strong>Ready</strong> - Available for download</li>
+                <li><strong>Completed</strong> - Downloaded and closed</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📜 Downloading Your Certificate</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Check Status</strong>
+                <p>Wait for your request status to change to "Ready".</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Go to My Certificates</strong>
+                <p>Click the "My Certificates" button on your dashboard.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Download</strong>
+                <p>Find your certificate and click the download button to get your PDF.</p>
+            </div>
+
+            <div class="tip">
+                Save multiple copies of your certificate in different locations for safekeeping.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>❓ Frequently Asked Questions</h2>
+            
+            <h3>How long does processing take?</h3>
+            <p>Typically 2-3 business days after payment confirmation.</p>
+
+            <h3>Can I request for someone else?</h3>
+            <p>Yes! Select "Requesting for someone else" and provide the required relationship information.</p>
+
+            <h3>What if I made a mistake in my request?</h3>
+            <p>Contact the parish office immediately with your reference number.</p>
+
+            <h3>Can I cancel a request?</h3>
+            <p>Yes, but only before payment is processed. Contact the admin for assistance.</p>
+
+            <h3>How do I restart the tour?</h3>
+            <p>Click the help button (?) on any page to restart the guided tour.</p>
+        </div>
+
+        <div class="card">
+            <h2>📞 Need Help?</h2>
+            <p>If you need additional assistance:</p>
+            <ul>
+                <li>Click the help tour button (?) on any page</li>
+                <li>Contact your parish office</li>
+                <li>Email: support@ditascom.org</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 DITASCOM - Diocese of Tarlac Certificate Management System</p>
+            <p>All rights reserved</p>
+        </footer>
+    </div>
+</body>
+</html>
