@@ -63,6 +63,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.ministers.index') }}" 
+                       class="flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-indigo-50 hover:text-[#1a237e] transition {{ request()->routeIs('admin.ministers.*') ? 'bg-indigo-50 text-[#1a237e] font-medium' : '' }}">
+                        <i class="fas fa-user-tie w-5"></i>
+                        <span>Minister Management</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.certificate-requests.index') }}" 
                        class="flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-indigo-50 hover:text-[#1a237e] transition {{ request()->routeIs('admin.certificate-requests.*') ? 'bg-indigo-50 text-[#1a237e] font-medium' : '' }}">
                         <i class="fas fa-file-alt w-5"></i>

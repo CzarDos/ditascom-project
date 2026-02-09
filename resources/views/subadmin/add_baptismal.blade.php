@@ -306,8 +306,15 @@
                         </div>
                         <div>
                             <label for="officiant" class="block text-sm font-medium text-gray-700 mb-1">Minister of Baptism</label>
-                            <input type="text" id="officiant" name="officiant"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <select id="officiant" name="officiant"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Select Minister</option>
+                                @foreach($ministers ?? [] as $minister)
+                                    <option value="{{ $minister->full_name }}" {{ old('officiant') == $minister->full_name ? 'selected' : '' }}>
+                                        {{ $minister->full_name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label for="sponsor1" class="block text-sm font-medium text-gray-700 mb-1">Sponsor 1</label>

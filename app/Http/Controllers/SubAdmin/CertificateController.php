@@ -9,6 +9,7 @@ use App\Models\Certificate;
 use App\Models\DeathCertificate;
 use App\Models\BaptismalCertificate;
 use App\Models\ConfirmationCertificate;
+use App\Models\Minister;
 use Illuminate\Support\Str;
 
 class CertificateController extends Controller
@@ -87,7 +88,10 @@ class CertificateController extends Controller
                 ->appends(request()->query()),
         };
         
-        return view($view, compact('certificates'));
+        // Get active ministers for dropdown
+        $ministers = Minister::active()->orderBy('name')->get();
+        
+        return view($view, compact('certificates', 'ministers'));
     }
 
     public function store(Request $request, $type)

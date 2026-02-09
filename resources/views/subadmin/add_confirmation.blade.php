@@ -371,8 +371,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="officiant" class="block text-sm font-medium text-gray-700 mb-1">Minister of Confirmation</label>
-                            <input type="text" id="officiant" name="officiant"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <select id="officiant" name="officiant"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <option value="">Select Minister</option>
+                                @foreach($ministers ?? [] as $minister)
+                                    <option value="{{ $minister->full_name }}" {{ old('officiant') == $minister->full_name ? 'selected' : '' }}>
+                                        {{ $minister->full_name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Parish</label>
