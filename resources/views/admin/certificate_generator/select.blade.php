@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Certificate - DITASCOM</title>
+    <title>Select Certificate - DOT My Sacrament</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +13,7 @@
     <nav class="bg-blue-900 text-white py-4 px-8 flex justify-between items-center shadow-md">
         <div class="flex items-center gap-3">
             <i class="fas fa-church text-2xl"></i>
-            <span class="text-xl font-bold">DITASCOM</span>
+            <span class="text-xl font-bold">DOT My Sacrament</span>
         </div>
         <div class="flex items-center gap-6">
             <span>{{ auth()->user()->name }}</span>

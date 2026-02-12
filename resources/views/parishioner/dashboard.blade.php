@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Requests - DITASCOM</title>
+    <title>My Requests - DOT My Sacrament</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,7 @@
     <nav class="bg-[#1a237e] px-6 py-3 flex justify-between items-center text-white h-[60px]">
         <a href="#" class="flex items-center gap-2 text-white no-underline font-semibold">
             <img class="w-10 h-10 mr-2" src="{{ asset('images/ditascom-logo.png') }}" alt="Logo"> 
-            DITASCOM
+            DOT My Sacrament
         </a>
         <div class="flex items-center gap-4">
             <div class="relative group">

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>DITASCOM - Parish Calendar</title>
+  <title>DOT My Sacrament - Parish Calendar</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -21,8 +21,8 @@
   <!-- Header -->
   <div class="bg-[#1a237e] px-6 py-4 flex justify-between items-center shadow-md">
     <div class="flex items-center gap-3">
-      <img class="w-12 h-12" src="{{ asset('images/ditascom-logo.png') }}" alt="DITASCOM Logo">
-      <span class="text-white text-xl font-semibold">DITASCOM</span>
+      <img class="w-12 h-12" src="{{ asset('images/ditascom-logo.png') }}" alt="DOT My Sacrament Logo">
+      <span class="text-white text-xl font-semibold">DOT My Sacrament</span>
     </div>
     <div class="flex gap-4 items-center">
       <a href="{{ route('faq') }}" class="text-white hover:text-gray-200 transition flex items-center gap-2">
@@ -66,7 +66,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <div>© 2024 DITASCOM. All rights reserved</div>
+    <div>© 2024 DOT My Sacrament. All rights reserved</div>
   </div>
 <script src='https://cdn.jotfor.ms/agent/embedjs/019a3f6363b270f9bb21ce6bed14513d2400/embed.js'>
 </script>

@@ -13,10 +13,30 @@ use App\Http\Controllers\SubAdmin\EventController;
 use App\Http\Controllers\SubAdmin\CertificateController;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->isAdministrator()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isSubAdministrator()) {
+            return redirect()->route('subadmin.dashboard');
+        } else {
+            return redirect()->route('parishioner.dashboard');
+        }
+    }
     return view('index');
 });
 
 Route::get('/index', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->isAdministrator()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isSubAdministrator()) {
+            return redirect()->route('subadmin.dashboard');
+        } else {
+            return redirect()->route('parishioner.dashboard');
+        }
+    }
     return view('index');
 })->name('index');
 

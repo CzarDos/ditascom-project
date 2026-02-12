@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Certificate - DITASCOM</title>
+    <title>Generate Certificate - DOT My Sacrament</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -277,7 +277,7 @@
     <nav class="bg-[#1a237e] text-white h-16 px-6 flex items-center justify-between sticky top-0 z-40">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-semibold text-lg hover:opacity-90 transition">
             <img class="h-10 w-10" src="{{ asset('images/ditascom-logo.png') }}" alt="Logo"> 
-            DITASCOM
+            DOT My Sacrament
         </a>
         <div class="flex items-center gap-4">
             <div class="relative group">
@@ -367,7 +367,7 @@
         </main>
     </div>
     <div class="footer">
-        <div>© 2024 DITASCOM. All rights reserved.</div>
+        <div>© 2024 DOT My Sacrament. All rights reserved.</div>
         <div class="footer-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>

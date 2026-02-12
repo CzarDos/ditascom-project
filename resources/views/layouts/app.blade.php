@@ -36,7 +36,7 @@
     <nav class="bg-[#1a237e] px-6 py-3 flex justify-between items-center text-white h-[60px]">
         <a href="#" class="flex items-center gap-2 text-white no-underline font-semibold">
             <img class="w-10 h-10 mr-2" src="{{ asset('images/ditascom-logo.png') }}" alt="Logo"> 
-            DITASCOM
+            DOT My Sacrament
         </a>
         {{-- <div class="flex items-center gap-4">
             <div class="relative group">
