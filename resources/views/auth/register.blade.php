@@ -59,9 +59,36 @@
             </div>
 
             <div class="relative mb-2">
-                <input type="password" name="password" placeholder="Password" required 
+                <input type="password" name="password" id="password" placeholder="Password" required 
                        class="w-full p-3 border border-gray-300 rounded-lg text-sm outline-none transition-all duration-300 focus:border-indigo-800 focus:shadow-sm">
                 <i class="fas fa-eye absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+            </div>
+
+            <!-- Password Strength Indicator -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 mr-3">
+                        <div id="strength-bar" class="h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <span id="strength-text" class="text-xs font-medium text-gray-600">Weak</span>
+                </div>
+                <div class="space-y-1 text-xs">
+                    <div id="lowercase" class="flex items-center text-gray-500">
+                        <i class="fas fa-times-circle mr-1"></i> Contains lowercase letter
+                    </div>
+                    <div id="uppercase" class="flex items-center text-gray-500">
+                        <i class="fas fa-times-circle mr-1"></i> Contains uppercase letter
+                    </div>
+                    <div id="number" class="flex items-center text-gray-500">
+                        <i class="fas fa-times-circle mr-1"></i> Contains number
+                    </div>
+                    <div id="symbol" class="flex items-center text-gray-500">
+                        <i class="fas fa-times-circle mr-1"></i> Contains special symbol
+                    </div>
+                    <div id="length" class="flex items-center text-gray-500">
+                        <i class="fas fa-times-circle mr-1"></i> At least 8 characters
+                    </div>
+                </div>
             </div>
 
             <div class="relative mb-2">
@@ -94,6 +121,112 @@
                 }
             });
         });
+
+        // Password Strength Checker
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        const form = document.querySelector('form[action="{{ route('register') }}"]');
+        
+        const requirements = {
+            lowercase: { element: document.getElementById('lowercase'), regex: /[a-z]/ },
+            uppercase: { element: document.getElementById('uppercase'), regex: /[A-Z]/ },
+            number: { element: document.getElementById('number'), regex: /[0-9]/ },
+            symbol: { element: document.getElementById('symbol'), regex: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/ },
+            length: { element: document.getElementById('length'), regex: /.{8,}/ }
+        };
+
+        let allRequirementsMet = false;
+
+        function checkPasswordStrength() {
+            const password = passwordInput.value;
+            let strength = 0;
+            let metRequirements = 0;
+
+            // Check each requirement
+            Object.keys(requirements).forEach(key => {
+                const req = requirements[key];
+                if (req.regex.test(password)) {
+                    req.element.classList.remove('text-gray-500');
+                    req.element.classList.add('text-green-600');
+                    req.element.querySelector('i').classList.remove('fa-times-circle');
+                    req.element.querySelector('i').classList.add('fa-check-circle');
+                    metRequirements++;
+                } else {
+                    req.element.classList.remove('text-green-600');
+                    req.element.classList.add('text-gray-500');
+                    req.element.querySelector('i').classList.remove('fa-check-circle');
+                    req.element.querySelector('i').classList.add('fa-times-circle');
+                }
+            });
+
+            // Calculate strength
+            if (metRequirements <= 2) {
+                strength = 25;
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-red-500';
+                strengthText.textContent = 'Weak';
+                strengthText.className = 'text-xs font-medium text-red-500';
+            } else if (metRequirements <= 3) {
+                strength = 50;
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-yellow-500';
+                strengthText.textContent = 'Normal';
+                strengthText.className = 'text-xs font-medium text-yellow-600';
+            } else if (metRequirements <= 4) {
+                strength = 75;
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-blue-500';
+                strengthText.textContent = 'Strong';
+                strengthText.className = 'text-xs font-medium text-blue-600';
+            } else {
+                strength = 100;
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-green-500';
+                strengthText.textContent = 'Very Strong';
+                strengthText.className = 'text-xs font-medium text-green-600';
+            }
+
+            strengthBar.style.width = strength + '%';
+            
+            // Check if all requirements are met
+            allRequirementsMet = metRequirements === 5;
+            
+            // Update submit button state
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (allRequirementsMet && passwordInput.value.length > 0) {
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitButton.classList.add('hover:bg-indigo-900');
+            } else {
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                submitButton.classList.remove('hover:bg-indigo-900');
+            }
+        }
+
+        // Prevent form submission if requirements are not met
+        form.addEventListener('submit', function(e) {
+            if (!allRequirementsMet || passwordInput.value.length === 0) {
+                e.preventDefault();
+                
+                // Show error message
+                let existingError = form.querySelector('.password-requirements-error');
+                if (!existingError) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'password-requirements-error bg-red-50 border border-red-400 text-red-800 p-3 rounded-lg mb-4 text-sm';
+                    errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i>Please ensure all password requirements are met before registering.';
+                    form.insertBefore(errorDiv, form.firstChild);
+                }
+                
+                // Scroll to error
+                existingError = form.querySelector('.password-requirements-error');
+                existingError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        passwordInput.addEventListener('input', checkPasswordStrength);
+        checkPasswordStrength(); // Initialize on page load
     </script>
 </body>
 </html>

@@ -25,10 +25,13 @@
                     <i class="fas fa-user rounded-full border-2 border-white w-[30px] h-[30px] flex items-center justify-center"></i>
                 </a>
                 <div class="hidden group-hover:block absolute right-0 bg-white min-w-[160px] shadow-lg z-10 rounded-md">
+                    <a href="{{ route('parishioner.profile') }}" class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
+                        <i class="fas fa-user-circle mr-2"></i> Profile
+                    </a>
                     <a href="{{ route('logout') }}" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </div>
             </div>

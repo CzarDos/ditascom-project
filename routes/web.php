@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\SubAdminController;
 use App\Http\Middleware\AdminMiddleware;
@@ -11,6 +12,8 @@ use App\Http\Middleware\SubAdminMiddleware;
 use App\Http\Middleware\ParishionerMiddleware;
 use App\Http\Controllers\SubAdmin\EventController;
 use App\Http\Controllers\SubAdmin\CertificateController;
+use App\Http\Controllers\SubAdmin\ProfileController as SubAdminProfileController;
+use App\Http\Controllers\Parishioner\ProfileController as ParishionerProfileController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -49,6 +52,8 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
@@ -143,6 +148,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/subadmin/certificates/death/{id}/download', [CertificateController::class, 'downloadDeathCertificate'])->name('subadmin.certificates.death.download');
         
         Route::get('/subadmin/certificates/list', [CertificateController::class, 'list'])->name('subadmin.certificates.list');
+        
+        // Profile routes
+        Route::get('/subadmin/profile', [SubAdminProfileController::class, 'index'])->name('subadmin.profile');
+        Route::post('/subadmin/change-password', [SubAdminProfileController::class, 'changePassword'])->name('subadmin.change.password');
     });
 
     // Parishioner Routes
@@ -166,6 +175,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/parishioner/certificates', [\App\Http\Controllers\Parishioner\CertificateDownloadController::class, 'index'])->name('parishioner.certificates.index');
         Route::get('/parishioner/certificates/{id}', [\App\Http\Controllers\Parishioner\CertificateDownloadController::class, 'show'])->name('parishioner.certificates.show');
         Route::get('/parishioner/certificates/{id}/download', [\App\Http\Controllers\Parishioner\CertificateDownloadController::class, 'download'])->name('parishioner.certificates.download');
+        
+        // Profile routes
+        Route::get('/parishioner/profile', [ParishionerProfileController::class, 'index'])->name('parishioner.profile');
+        Route::post('/parishioner/change-password', [ParishionerProfileController::class, 'changePassword'])->name('parishioner.change.password');
     });
 });
 

@@ -33,10 +33,13 @@
                     <i class="fas fa-user rounded-full border-2 border-white w-8 h-8 flex items-center justify-center"></i>
                 </a>
                 <div class="hidden group-hover:block absolute right-0 bg-white min-w-[160px] shadow-lg z-10 rounded-md">
+                    <a href="{{ route('subadmin.profile') }}" class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
+                        <i class="fas fa-user-circle mr-2"></i> Profile
+                    </a>
                     <a href="{{ route('logout') }}" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </div>
             </div>
@@ -51,12 +54,7 @@
     <div class="flex h-[calc(100vh-60px)] overflow-hidden">
         <!-- Sidebar -->
         <aside class="w-64 bg-white h-full border-r border-gray-300 overflow-y-auto">
-            <div class="my-6 mx-4">
-                <input type="text" placeholder="Search for requests, parishes, or users..." 
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm">
-            </div>
-            
-            <ul class="list-none">
+            <ul class="list-none pt-6">
                 <li>
                     <a href="{{ route('subadmin.dashboard') }}" class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all bg-indigo-50 text-primary">
                         <i class="fas fa-th-large mr-3 w-5"></i>
