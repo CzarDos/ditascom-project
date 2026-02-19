@@ -151,6 +151,10 @@
       <span class="text-white text-xl font-semibold">DOT My Sacrament</span>
     </div>
     <div class="flex gap-4 items-center">
+      <a href="{{ route('certificate.verification') }}" class="text-white hover:text-gray-200 transition flex items-center gap-2">
+        <i class="fas fa-certificate"></i>
+        <span class="hidden sm:inline">Verify Certificate</span>
+      </a>
       <a href="{{ route('faq') }}" class="text-white hover:text-gray-200 transition flex items-center gap-2">
         <i class="fas fa-question-circle"></i>
         <span class="hidden sm:inline">FAQ</span>

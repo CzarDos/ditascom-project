@@ -296,6 +296,8 @@
                     This certificate has been electronically generated and approved by {{ strtoupper($certificate->subadmin->parish_name ?? 'SANTO NIÑO PARISH') }}. 
                     No physical seal is required as this document has been digitally authenticated and verified by the parish administration. 
                     This certificate carries the same validity and authority as traditionally sealed documents.
+                    <br><br>
+                    <strong>To manually check if this certificate is legitimate, visit dotmaysacrament.com and use the Certificate Verification feature with Certificate ID: {{ $certificate->cert_id }}</strong>
                 </div>
             </div>
             

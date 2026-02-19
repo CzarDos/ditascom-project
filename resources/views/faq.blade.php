@@ -259,7 +259,7 @@
 
   <!-- Footer -->
   <div class="bg-gray-800 text-white text-center py-6 mt-12">
-    <div>© 2024 DITASCOM. All rights reserved</div>
+    <div>© 2026 Powered by DiTaSCoM. All rights reserved</div>
   </div>
 
   <script>

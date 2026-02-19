@@ -14,6 +14,7 @@ use App\Http\Controllers\SubAdmin\EventController;
 use App\Http\Controllers\SubAdmin\CertificateController;
 use App\Http\Controllers\SubAdmin\ProfileController as SubAdminProfileController;
 use App\Http\Controllers\Parishioner\ProfileController as ParishionerProfileController;
+use App\Http\Controllers\CertificateVerificationController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -60,6 +61,10 @@ Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+// Certificate Verification Routes
+Route::get('/verify-certificate', [CertificateVerificationController::class, 'index'])->name('certificate.verification');
+Route::post('/verify-certificate', [CertificateVerificationController::class, 'verify'])->name('certificate.verify');
 
 // PayMongo Webhook (must be outside auth middleware)
 Route::post('/paymongo/webhook', [\App\Http\Controllers\PayMongoWebhookController::class, 'handle'])->name('paymongo.webhook');

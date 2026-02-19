@@ -31,6 +31,39 @@
             position: relative;
             min-height: calc(13in - 30px); /* Adjust for container padding */
         }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            opacity: 0.1;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .watermark img {
+            width: 300px;
+            height: 300px;
+        }
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+        }
+        .qr-code {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .qr-code img {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background: white;
+        }
+        .qr-code-text {
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+        }
         .header-section {
             display: table;
             width: 100%;
@@ -292,6 +325,8 @@
                     This certificate has been electronically generated and approved by {{ strtoupper($certificate->subadmin->parish_name ?? 'SANTO NIÑO PARISH') }}. 
                     No physical seal is required as this document has been digitally authenticated and verified by the parish administration. 
                     This certificate carries the same validity and authority as traditionally sealed documents.
+                    <br><br>
+                    <strong>To manually check if this certificate is legitimate, visit dotmaysacrament.com and use the Certificate Verification feature with Certificate ID: {{ $certificate->cert_id }}</strong>
                 </div>
             </div>
             
