@@ -1,5 +1,5 @@
 /**
- * DITASCOM Parish Calendar JavaScript
+ * DOT My Sacrament Parish Calendar JavaScript
  * Handles calendar rendering, parish selection, and event display
  */
 
@@ -50,54 +50,10 @@ const parishEvents = {
 
 
 /**
- * Load parishes from database and populate the dropdown
- */
-async function loadParishesFromDatabase() {
-  try {
-    const response = await fetch('/api/parishes');
-    const parishes = await response.json();
-    
-    const parishSelect = document.getElementById('parish-select');
-    
-    if (!parishSelect) {
-      console.error('Parish selector not found');
-      return;
-    }
-    
-    // Clear existing options except the first one (placeholder)
-    while (parishSelect.options.length > 1) {
-      parishSelect.remove(1);
-    }
-    
-    // Add parishes from database
-    parishes.forEach(parish => {
-      const option = document.createElement('option');
-      option.value = parish.value;
-      option.textContent = parish.name;
-      parishSelect.appendChild(option);
-      
-      // Initialize parish in parishEvents if not exists
-      if (!parishEvents[parish.value]) {
-        parishEvents[parish.value] = {
-          name: parish.name,
-          events: []
-        };
-      }
-    });
-    
-    console.log('Parishes loaded from database:', parishes);
-  } catch (error) {
-    console.error('Error loading parishes:', error);
-  }
-}
-
-
-/**
  * Initialize the calendar when DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
   initializeCalendar();
-  loadParishesFromDatabase();
   initializeParishSelector();
   initializeChatbot();
 });
@@ -505,7 +461,6 @@ function initializeParishSelector() {
     return;
   }
 
-
   // Add event listener for parish selection
   parishSelect.addEventListener('change', handleParishChange);
 }
@@ -666,7 +621,7 @@ function generateBotResponse(message) {
   // General responses
   const responses = {
     'mass schedule': 'Our regular mass schedule is: Sunday (6:00 AM, 8:00 AM, 5:00 PM), Monday-Friday (6:00 AM), Saturday (6:00 AM, 5:00 PM anticipated)',
-    'contact': 'You can reach us through our parish office during office hours or email us at info@ditascom.com',
+    'contact': 'You can reach us through our parish office during office hours or email us at info@dotmysacrament.com',
     'events': 'Please select a parish from the dropdown to view specific events in the calendar.',
     'donation': 'We accept donations through various channels. Please visit our parish office for more information.',
     'baptism': 'For baptism inquiries, please visit our parish office to schedule an appointment and get the requirements.',

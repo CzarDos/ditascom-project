@@ -147,8 +147,34 @@
         <div class="grid grid-cols-1 gap-6 mb-5">
             <div class="flex flex-col">
                 <label class="text-sm text-gray-700 mb-1">Registered Parish <span class="text-red-500">*</span></label>
-                <input type="text" name="registered_parish" placeholder="Enter the parish name where records are registered" required class="p-3 border border-gray-200 rounded-md text-base bg-white">
-                <div class="text-xs text-gray-500 mt-1">Example: Sto. Niño Parish of Panabo, San Isidro Labrador Parish of Kapalong, etc.</div>
+                <div class="relative">
+                    <input type="text" 
+                           id="parish-search" 
+                           placeholder="Type to search for parish..." 
+                           required 
+                           class="p-3 border border-gray-200 rounded-md text-base bg-white w-full"
+                           autocomplete="off">
+                    <input type="hidden" name="registered_parish" id="registered_parish" required>
+                    
+                    <!-- Dropdown options -->
+                    <div id="parish-dropdown" class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto hidden">
+                        @if(isset($parishes) && $parishes->count() > 0)
+                            @foreach($parishes as $parish)
+                                <div class="parish-option px-3 py-2 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                     data-parish-name="{{ $parish->parish_name }}"
+                                     data-parish-address="{{ $parish->parish_address ?? '' }}">
+                                    <div class="font-medium text-gray-900">{{ $parish->parish_name }}</div>
+                                    @if($parish->parish_address)
+                                        <div class="text-sm text-gray-500">{{ $parish->parish_address }}</div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="px-3 py-2 text-gray-500 text-sm">No parishes available</div>
+                        @endif
+                    </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">Start typing to search for your parish (e.g., Sto. Niño, San Isidro, etc.)</div>
             </div>
         </div>
         
@@ -476,6 +502,15 @@
                 return false;
             }
             
+            // Validate parish selection
+            const registeredParish = document.getElementById('registered_parish').value;
+            if (!registeredParish) {
+                e.preventDefault();
+                alert('Please select a registered parish from the dropdown');
+                document.getElementById('parish-search').focus();
+                return false;
+            }
+            
             // Validate ID uploads
             const frontIdInput = document.getElementById('id-front-upload');
             const backIdInput = document.getElementById('id-back-upload');
@@ -522,6 +557,112 @@
                 e.preventDefault();
                 alert('Contact number must contain only numbers');
                 return false;
+            }
+        });
+
+        // Parish dropdown functionality
+        const parishSearch = document.getElementById('parish-search');
+        const parishDropdown = document.getElementById('parish-dropdown');
+        const registeredParishInput = document.getElementById('registered_parish');
+        const parishOptions = document.querySelectorAll('.parish-option');
+
+        // Show/hide dropdown on input focus
+        parishSearch.addEventListener('focus', function() {
+            parishDropdown.classList.remove('hidden');
+            filterParishes();
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#parish-search') && !e.target.closest('#parish-dropdown')) {
+                parishDropdown.classList.add('hidden');
+            }
+        });
+
+        // Filter parishes based on search input
+        parishSearch.addEventListener('input', function() {
+            filterParishes();
+        });
+
+        function filterParishes() {
+            const searchTerm = parishSearch.value.toLowerCase();
+            let hasVisibleOptions = false;
+
+            parishOptions.forEach(option => {
+                const parishName = option.getAttribute('data-parish-name').toLowerCase();
+                const parishAddress = option.getAttribute('data-parish-address').toLowerCase();
+                
+                if (parishName.includes(searchTerm) || parishAddress.includes(searchTerm)) {
+                    option.style.display = 'block';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+
+            // Show "no results" message if no options match
+            const noResultsMsg = parishDropdown.querySelector('.no-results');
+            if (!hasVisibleOptions && searchTerm !== '') {
+                if (!noResultsMsg) {
+                    const noResultsDiv = document.createElement('div');
+                    noResultsDiv.className = 'no-results px-3 py-2 text-gray-500 text-sm';
+                    noResultsDiv.textContent = 'No parishes found matching your search';
+                    parishDropdown.appendChild(noResultsDiv);
+                }
+            } else if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        }
+
+        // Handle parish selection
+        parishOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const parishName = this.getAttribute('data-parish-name');
+                parishSearch.value = parishName;
+                registeredParishInput.value = parishName;
+                parishDropdown.classList.add('hidden');
+                
+                // Add visual feedback
+                parishSearch.classList.add('border-green-500');
+                setTimeout(() => {
+                    parishSearch.classList.remove('border-green-500');
+                }, 1000);
+            });
+        });
+
+        // Handle keyboard navigation
+        parishSearch.addEventListener('keydown', function(e) {
+            const visibleOptions = Array.from(parishOptions).filter(option => option.style.display !== 'none');
+            const currentIndex = visibleOptions.findIndex(option => option.classList.contains('bg-blue-50'));
+
+            switch(e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if (currentIndex < visibleOptions.length - 1) {
+                        if (currentIndex >= 0) visibleOptions[currentIndex].classList.remove('bg-blue-50');
+                        visibleOptions[currentIndex + 1].classList.add('bg-blue-50');
+                    } else if (visibleOptions.length > 0) {
+                        visibleOptions[0].classList.add('bg-blue-50');
+                    }
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (currentIndex > 0) {
+                        visibleOptions[currentIndex].classList.remove('bg-blue-50');
+                        visibleOptions[currentIndex - 1].classList.add('bg-blue-50');
+                    } else if (visibleOptions.length > 0) {
+                        visibleOptions[visibleOptions.length - 1].classList.add('bg-blue-50');
+                    }
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (currentIndex >= 0) {
+                        visibleOptions[currentIndex].click();
+                    }
+                    break;
+                case 'Escape':
+                    parishDropdown.classList.add('hidden');
+                    break;
             }
         });
 

@@ -158,9 +158,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([ParishionerMiddleware::class])->group(function () {
         Route::get('/parishioner/dashboard', [App\Http\Controllers\Parishioner\CertificateRequestController::class, 'dashboard'])->name('parishioner.dashboard');
 
-        Route::get('/parishioner/request/new', function () {
-            return view('parishioner.request-new');
-        });
+        Route::get('/parishioner/request/new', [App\Http\Controllers\Parishioner\CertificateRequestController::class, 'create'])->name('parishioner.certificate-request.create');
         Route::post('/parishioner/request', [App\Http\Controllers\Parishioner\CertificateRequestController::class, 'store'])->name('parishioner.certificate-request.store');
         Route::get('/parishioner/request/payment/{id}', [App\Http\Controllers\Parishioner\CertificateRequestController::class, 'showPayment'])->name('parishioner.certificate-request.payment');
         Route::get('/parishioner/request/payment-success/{id}', [App\Http\Controllers\Parishioner\CertificateRequestController::class, 'paymentSuccess'])->name('parishioner.certificate-request.payment-success');

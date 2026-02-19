@@ -5,9 +5,21 @@ namespace App\Http\Controllers\Parishioner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\PayMongoService;
+use App\Models\User;
 
 class CertificateRequestController extends Controller
 {
+    public function create()
+    {
+        // Fetch all parishes from sub-administrator users
+        $parishes = User::where('role', 'sub-administrator')
+            ->whereNotNull('parish_name')
+            ->orderBy('parish_name', 'asc')
+            ->get(['id', 'parish_name', 'parish_address']);
+            
+        return view('parishioner.request-new', compact('parishes'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
