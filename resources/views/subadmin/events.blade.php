@@ -17,14 +17,17 @@
         </a>
         <div class="flex items-center gap-4">
             <div class="relative group">
-                <a href="#" class="text-white no-underline text-lg">
-                    <i class="fas fa-user rounded-full border-2 border-white w-[30px] h-[30px] flex items-center justify-center"></i>
+                <a href="#" class="text-white text-lg">
+                    <i class="fas fa-user rounded-full border-2 border-white w-8 h-8 flex items-center justify-center"></i>
                 </a>
                 <div class="hidden group-hover:block absolute right-0 bg-white min-w-[160px] shadow-lg z-10 rounded-md">
+                    <a href="{{ route('subadmin.profile') }}" class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
+                        <i class="fas fa-user-circle mr-2"></i> Profile
+                    </a>
                     <a href="{{ route('logout') }}" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </div>
             </div>
@@ -39,12 +42,7 @@
     <div class="flex h-[calc(100vh-60px)] overflow-hidden">
         <!-- Sidebar -->
         <aside class="w-[250px] bg-white h-full border-r border-gray-300 overflow-y-auto">
-            <div class="my-6 mx-4">
-                <input type="text" placeholder="Search for requests, parishes, or users..." 
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm">
-            </div>
-            
-            <ul class="list-none">
+            <ul class="list-none pt-6">
                 <li>
                     <a href="{{ route('subadmin.dashboard') }}" 
                        class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
@@ -164,12 +162,19 @@
                 <div class="mb-4">
                     <label for="eventType" class="block mb-2 text-gray-800 font-medium">Event Type</label>
                     <select id="eventType" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]"
+                            onchange="handleEventTypeChange()">
                         <option value="mass">Mass</option>
                         <option value="wedding">Wedding</option>
                         <option value="baptism">Baptism</option>
                         <option value="other">Other</option>
                     </select>
+                </div>
+                <div class="mb-4 hidden" id="otherEventTypeDiv">
+                    <label for="otherEventType" class="block mb-2 text-gray-800 font-medium">Specify Event Type</label>
+                    <input type="text" id="otherEventType" 
+                           placeholder="Enter custom event type..." 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
                 <button type="submit" class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm hover:bg-[#0d1642]">Save Event</button>
             </form>
@@ -251,26 +256,59 @@
         });
 
         // Event handling functions
-        let events = [];
-        let massSchedules = [];
+        function handleEventTypeChange() {
+            const eventType = document.getElementById('eventType').value;
+            const otherEventTypeDiv = document.getElementById('otherEventTypeDiv');
+            const otherEventTypeInput = document.getElementById('otherEventType');
+            
+            if (eventType === 'other') {
+                otherEventTypeDiv.classList.remove('hidden');
+                otherEventTypeInput.required = true;
+            } else {
+                otherEventTypeDiv.classList.add('hidden');
+                otherEventTypeInput.required = false;
+                otherEventTypeInput.value = '';
+            }
+        }
 
         function openEventModal(eventId = null) {
             const modal = document.getElementById('eventModal');
             const title = document.getElementById('eventModalTitle');
             const form = document.getElementById('eventForm');
+            
+            // Load events from localStorage
+            const events = JSON.parse(localStorage.getItem('events') || '[]');
 
             if (eventId) {
                 const event = events.find(e => e.id === eventId);
+                if (!event) {
+                    console.error('Event not found:', eventId);
+                    return;
+                }
+                
                 title.textContent = 'Edit Event';
                 document.getElementById('eventId').value = event.id;
                 document.getElementById('eventTitle').value = event.title;
                 document.getElementById('eventDate').value = event.date;
                 document.getElementById('eventTime').value = event.time;
                 document.getElementById('eventType').value = event.type;
+                
+                // Handle "other" event type
+                if (event.type === 'other' && event.customType) {
+                    document.getElementById('otherEventType').value = event.customType;
+                    document.getElementById('otherEventTypeDiv').classList.remove('hidden');
+                    document.getElementById('otherEventType').required = true;
+                } else {
+                    document.getElementById('otherEventTypeDiv').classList.add('hidden');
+                    document.getElementById('otherEventType').required = false;
+                    document.getElementById('otherEventType').value = '';
+                }
             } else {
                 title.textContent = 'Add Event';
                 form.reset();
                 document.getElementById('eventId').value = '';
+                document.getElementById('otherEventTypeDiv').classList.add('hidden');
+                document.getElementById('otherEventType').required = false;
             }
 
             modal.classList.remove('hidden');
@@ -287,9 +325,17 @@
             const modal = document.getElementById('massModal');
             const title = document.getElementById('massModalTitle');
             const form = document.getElementById('massForm');
+            
+            // Load events from localStorage
+            const events = JSON.parse(localStorage.getItem('events') || '[]');
 
             if (massId) {
-                const mass = massSchedules.find(m => m.id === massId);
+                const mass = events.find(m => m.id === massId);
+                if (!mass) {
+                    console.error('Mass schedule not found:', massId);
+                    return;
+                }
+                
                 title.textContent = 'Edit Mass Schedule';
                 document.getElementById('massId').value = mass.id;
                 document.getElementById('massDay').value = mass.day;
@@ -333,16 +379,27 @@
             e.preventDefault();
             const form = e.target;
             const eventId = document.getElementById('eventId').value;
+            const eventType = document.getElementById('eventType').value;
             
             const eventData = {
                 id: eventId || Date.now().toString(),
                 title: document.getElementById('eventTitle').value,
                 date: document.getElementById('eventDate').value,
                 time: document.getElementById('eventTime').value,
-                type: document.getElementById('eventType').value,
+                type: eventType,
                 parish_name: PARISH_NAME,
                 isEvent: true
             };
+
+            // Add custom type if "other" is selected
+            if (eventType === 'other') {
+                const customType = document.getElementById('otherEventType').value.trim();
+                if (!customType) {
+                    alert('Please specify the event type.');
+                    return;
+                }
+                eventData.customType = customType;
+            }
 
             let events = JSON.parse(localStorage.getItem('events') || '[]');
             
@@ -439,14 +496,16 @@
                     return dateA - dateB;
                 });
 
-            eventList.innerHTML = upcomingEvents.map(event => `
+            eventList.innerHTML = upcomingEvents.map(event => {
+                const displayType = event.type === 'other' && event.customType ? event.customType : event.type;
+                return `
                 <div class="flex gap-3 p-4 bg-gray-50 rounded-lg transition-all hover:-translate-y-0.5 hover:shadow-md">
                     <div class="w-10 h-10 bg-[#1a237e] text-white rounded-lg flex items-center justify-center flex-shrink-0">
-                        <i class="fas ${getEventIcon(event.type)}"></i>
+                        <i class="fas ${getEventIcon(event.type, event.customType)}"></i>
                     </div>
                     <div class="flex-1">
                         <h4 class="m-0 mb-1 text-gray-800">${event.title}</h4>
-                        <p class="m-0 text-gray-600 text-sm">${formatDate(event.date)} • ${formatTimeHourly(event.time)}</p>
+                        <p class="m-0 text-gray-600 text-sm">${displayType} • ${formatDate(event.date)} • ${formatTimeHourly(event.time)}</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openEventModal('${event.id}')" 
@@ -459,7 +518,8 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+        }).join('');
         }
 
         function renderMassSchedules() {
@@ -497,11 +557,12 @@
             `).join('');
         }
 
-        function getEventIcon(type) {
+        function getEventIcon(type, customType = null) {
             switch (type) {
                 case 'mass': return 'fa-church';
                 case 'wedding': return 'fa-ring';
                 case 'baptism': return 'fa-child';
+                case 'other': return 'fa-calendar-day';
                 default: return 'fa-calendar-day';
             }
         }

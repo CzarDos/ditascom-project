@@ -51,11 +51,7 @@
     <div class="flex h-[calc(100vh-60px)] overflow-hidden">
         <!-- Sidebar -->
         <aside class="w-64 bg-white h-full border-r border-gray-300 overflow-y-auto">
-            <div class="my-6 mx-4">
-                <input type="text" placeholder="Search for requests, parishes, or users..." 
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm">
-            </div>
-            <ul class="list-none">
+            <ul class="list-none pt-6">
                 <li>
                     <a href="{{ route('subadmin.dashboard') }}" class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-primary">
                         <i class="fas fa-th-large mr-3 w-5"></i>
@@ -82,7 +78,7 @@
                         </li>
                         <li>
                             <a href="{{ route('subadmin.certificates.add', ['type' => 'death']) }}" 
-                               class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-primary bg-indigo-50 text-primary">
+                               class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all bg-indigo-50 text-primary">
                                 <i class="fas fa-chevron-right mr-3 w-5"></i> Add Death
                             </a>
                         </li>
