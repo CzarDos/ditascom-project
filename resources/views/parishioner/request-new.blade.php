@@ -99,7 +99,7 @@
         <div class="grid grid-cols-1 gap-6 mb-5">
             <div class="flex flex-col">
                 <label class="text-sm text-gray-700 mb-1">Purpose of Request</label>
-                <select name="purpose" required class="p-3 border border-gray-200 rounded-md text-base bg-white">
+                <select name="purpose" id="purpose" required class="p-3 border border-gray-200 rounded-md text-base bg-white">
                     <option value="">Select purpose</option>
                     <option value="Employment">Employment</option>
                     <option value="School Requirements">School Requirements</option>
@@ -109,6 +109,10 @@
                     <option value="Personal Records">Personal Records</option>
                     <option value="Other">Other</option>
                 </select>
+            </div>
+            <div id="other-purpose-section" class="flex flex-col hidden">
+                <label class="text-sm text-gray-700 mb-1">Please specify other purpose</label>
+                <input type="text" name="other_purpose" id="other_purpose" placeholder="Enter the specific purpose of your request" class="p-3 border border-gray-200 rounded-md text-base bg-white">
             </div>
         </div>
         <div class="font-semibold mt-8 mb-4 text-lg text-blue-900">Parent's Information</div>
@@ -369,6 +373,22 @@
                 // Update relationship summary when request type changes
                 updateRelationshipSummary();
             });
+        });
+
+        // Handle purpose dropdown change
+        const purposeDropdown = document.getElementById('purpose');
+        const otherPurposeSection = document.getElementById('other-purpose-section');
+        const otherPurposeInput = document.getElementById('other_purpose');
+
+        purposeDropdown.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                otherPurposeSection.classList.remove('hidden');
+                otherPurposeInput.setAttribute('required', 'required');
+            } else {
+                otherPurposeSection.classList.add('hidden');
+                otherPurposeInput.removeAttribute('required');
+                otherPurposeInput.value = ''; // Clear the input when hidden
+            }
         });
 
         // Date validation for date of birth fields
