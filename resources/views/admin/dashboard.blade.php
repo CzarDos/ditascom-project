@@ -3,6 +3,32 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    @if($pendingRequests->count() > 0)
+        <!-- Pending Requests Warning -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-yellow-800">
+                            Pending Requests Need Review
+                        </h3>
+                        <p class="mt-1 text-sm text-yellow-700">
+                            You have {{ $pendingRequests->count() }} pending certificate request(s) that need to be reviewed and accepted.
+                        </p>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <a href="{{ route('admin.certificate-requests.index') }}" class="text-sm font-medium text-yellow-800 underline hover:text-yellow-900">
+                        Review Requests →
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <h1 class="text-2xl font-semibold text-gray-800 mb-6">Welcome back, {{ Auth::user()->name }}</h1>
 
     <!-- Stats Grid - First Row -->

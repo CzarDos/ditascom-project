@@ -29,6 +29,13 @@ class AdminCertificateController extends Controller
         $confirmationCount = ConfirmationCertificate::count();
         $totalCertificates = $baptismalCount + $deathCount + $confirmationCount;
         
+        // Get pending requests that need review and acceptance
+        $pendingRequests = CertificateRequest::where('status', 'pending')
+            ->where('payment_status', 'paid')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
         return view('admin.dashboard', compact(
             'totalParishes',
             'totalRequests',
@@ -36,7 +43,8 @@ class AdminCertificateController extends Controller
             'totalCertificates',
             'baptismalCount',
             'deathCount',
-            'confirmationCount'
+            'confirmationCount',
+            'pendingRequests'
         ));
     }
     public function baptism(Request $request)
