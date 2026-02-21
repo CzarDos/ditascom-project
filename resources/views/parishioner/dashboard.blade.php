@@ -11,6 +11,12 @@
     <!-- Shepherd.js for Onboarding Tour -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/css/shepherd.css"/>
     <link rel="stylesheet" href="{{ asset('css/onboarding-tour.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/ditascom-logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/ditascom-logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/ditascom-logo.png') }}">
+
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col" style="font-family: 'Inter', sans-serif;">
     <!-- Navbar -->

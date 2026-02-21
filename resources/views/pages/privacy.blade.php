@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Church Documentation System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/ditascom-logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/ditascom-logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/ditascom-logo.png') }}">
+
     <style>
         body {
             margin: 0;
