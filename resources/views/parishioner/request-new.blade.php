@@ -6,6 +6,13 @@
     @csrf
     <input type="hidden" name="certificate_type" id="certificate_type" value="Baptismal Certificate">
     <div class="max-w-4xl mx-auto my-8 bg-white rounded-2xl shadow-sm p-6 lg:p-10">
+        <!-- Back button at the top -->
+        <div class="flex items-center mb-6">
+            <button onclick="goBack()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group">
+                <i class="fas fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-medium">Back to Dashboard</span>
+            </button>
+        </div>
         <div class="text-xl font-semibold mb-2">Request Official Certificates</div>
         <div class="text-gray-500 mb-8">Select the type of certificate you need</div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-10">
@@ -239,13 +246,50 @@
         </div>
         <div class="bg-blue-50 text-blue-900 rounded-md p-3 text-sm mb-5">Your personal information will be handled according to our privacy policy and used solely for the purpose of processing your certificate request.</div>
         <div class="bg-blue-50 text-blue-900 rounded-md p-3 text-sm mb-6">Estimated processing time: 3-5 business days</div>
-        <div class="flex justify-end gap-4 mt-6">
-            <button class="cancel-btn border-0 rounded-md px-6 py-2 text-base font-medium cursor-pointer transition bg-gray-100 text-gray-800 hover:bg-gray-200" type="button">Cancel</button>
-            <button class="submit-btn border-0 rounded-md px-6 py-2 text-base font-medium cursor-pointer transition bg-blue-900 text-white hover:bg-blue-800" type="submit">Submit Request</button>
+        <div class="flex justify-between gap-4 mt-6">
+            <button onclick="goBack()" class="flex items-center gap-2 border border-gray-300 rounded-md px-6 py-2 text-base font-medium cursor-pointer transition bg-white text-gray-700 hover:bg-gray-50">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </button>
+            <div class="flex gap-4">
+                <button class="cancel-btn border-0 rounded-md px-6 py-2 text-base font-medium cursor-pointer transition bg-gray-100 text-gray-800 hover:bg-gray-200" type="button">Cancel</button>
+                <button class="submit-btn border-0 rounded-md px-6 py-2 text-base font-medium cursor-pointer transition bg-blue-900 text-white hover:bg-blue-800" type="submit">Submit Request</button>
+            </div>
         </div>
     </div>
 </form>
 <script>
+    // Back navigation function
+    function goBack() {
+        // Check if there's form data that might be lost
+        const form = document.getElementById('certificate-request-form');
+        const formData = new FormData(form);
+        let hasData = false;
+        
+        // Check if form has any data
+        for (let [key, value] of formData.entries()) {
+            if (value && value.trim() !== '' && key !== '_token' && key !== 'certificate_type') {
+                hasData = true;
+                break;
+            }
+        }
+        
+        // Check file uploads
+        const frontFile = document.getElementById('id-front-upload').files[0];
+        const backFile = document.getElementById('id-back-upload').files[0];
+        const additionalFiles = document.getElementById('additional-photos-upload').files;
+        
+        if (hasData || frontFile || backFile || additionalFiles.length > 0) {
+            // Show confirmation dialog if there's unsaved data
+            if (confirm('Are you sure you want to go back? Any unsaved data will be lost.')) {
+                window.location.href = '/parishioner/dashboard';
+            }
+        } else {
+            // No data to lose, go back directly
+            window.location.href = '/parishioner/dashboard';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Certificate type selection
         document.querySelectorAll('.cert-type-card').forEach(card => {

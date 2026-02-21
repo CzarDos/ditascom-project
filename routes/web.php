@@ -185,4 +185,9 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+// Fallback route for common mistaken parishioner request URL
+Route::get('/parishioner/request', function () {
+    return redirect()->route('parishioner.certificate-request.create');
+})->middleware('auth');
+
 

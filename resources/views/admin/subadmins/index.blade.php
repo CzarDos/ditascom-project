@@ -168,7 +168,12 @@
                         </label>
                         <input type="password" id="password" name="password" required 
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="Enter password">
+                            placeholder="Enter password (minimum 8 characters)">
+                        <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters long</p>
+                        <div id="password_length_error" class="hidden mt-2 text-sm text-red-600">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Password must be at least 8 characters long
+                        </div>
                     </div>
                     
                     <div>
@@ -273,6 +278,11 @@
                                 <input type="password" id="edit_password" name="password" 
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     placeholder="Leave blank to keep current password">
+                                <p class="text-xs text-gray-500 mt-1">If changed, password must be at least 8 characters long</p>
+                                <div id="edit_password_length_error" class="hidden mt-2 text-sm text-red-600">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    Password must be at least 8 characters long
+                                </div>
                             </div>
                             
                             <div>
@@ -409,42 +419,55 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('password_confirmation').value;
             const errorDiv = document.getElementById('password_error');
+            const lengthErrorDiv = document.getElementById('password_length_error');
             const submitBtn = document.getElementById('add_submit_btn');
+            const passwordInput = document.getElementById('password');
             const confirmInput = document.getElementById('password_confirmation');
 
-            // Show error if confirm password has value and doesn't match password
+            let isValid = true;
+
+            // Check password length
+            if (password && password.length < 8) {
+                lengthErrorDiv.classList.remove('hidden');
+                passwordInput.classList.add('border-red-500');
+                passwordInput.classList.remove('border-gray-300');
+                isValid = false;
+            } else {
+                lengthErrorDiv.classList.add('hidden');
+                passwordInput.classList.remove('border-red-500');
+                passwordInput.classList.add('border-gray-300');
+            }
+
+            // Check password match
             if (confirmPassword && password && password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
                 errorDiv.classList.remove('hidden');
                 confirmInput.classList.add('border-red-500');
                 confirmInput.classList.remove('border-gray-300');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                return false;
-            } else if (confirmPassword && password && password === confirmPassword) {
-                // Passwords match
-                errorDiv.classList.add('hidden');
-                confirmInput.classList.remove('border-red-500');
-                confirmInput.classList.add('border-gray-300');
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                return true;
+                isValid = false;
             } else if (confirmPassword && !password) {
                 // Confirm password has value but password is empty
+                errorDiv.textContent = 'Please enter a password first';
                 errorDiv.classList.remove('hidden');
                 confirmInput.classList.add('border-red-500');
                 confirmInput.classList.remove('border-gray-300');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                return false;
+                isValid = false;
             } else {
-                // Either both empty or confirm password is empty
                 errorDiv.classList.add('hidden');
                 confirmInput.classList.remove('border-red-500');
                 confirmInput.classList.add('border-gray-300');
+            }
+
+            // Enable/disable submit button
+            if (isValid && password && confirmPassword && password === confirmPassword) {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                return true;
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
+
+            return isValid && password && confirmPassword && password === confirmPassword;
         }
 
         // Password validation for Edit form
@@ -452,42 +475,61 @@
             const password = document.getElementById('edit_password').value;
             const confirmPassword = document.getElementById('edit_password_confirmation').value;
             const errorDiv = document.getElementById('edit_password_error');
+            const lengthErrorDiv = document.getElementById('edit_password_length_error');
             const submitBtn = document.getElementById('edit_submit_btn');
+            const passwordInput = document.getElementById('edit_password');
             const confirmInput = document.getElementById('edit_password_confirmation');
 
-            // Show error if confirm password has value and doesn't match password
+            let isValid = true;
+
+            // Check password length only if password is provided
+            if (password && password.length < 8) {
+                lengthErrorDiv.classList.remove('hidden');
+                passwordInput.classList.add('border-red-500');
+                passwordInput.classList.remove('border-gray-300');
+                isValid = false;
+            } else {
+                lengthErrorDiv.classList.add('hidden');
+                passwordInput.classList.remove('border-red-500');
+                passwordInput.classList.add('border-gray-300');
+            }
+
+            // Check password match only if passwords are provided
             if (confirmPassword && password && password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
                 errorDiv.classList.remove('hidden');
                 confirmInput.classList.add('border-red-500');
                 confirmInput.classList.remove('border-gray-300');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                return false;
-            } else if (confirmPassword && password && password === confirmPassword) {
-                // Passwords match
-                errorDiv.classList.add('hidden');
-                confirmInput.classList.remove('border-red-500');
-                confirmInput.classList.add('border-gray-300');
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                return true;
+                isValid = false;
             } else if (confirmPassword && !password) {
                 // Confirm password has value but password is empty
+                errorDiv.textContent = 'Please enter a password first';
                 errorDiv.classList.remove('hidden');
                 confirmInput.classList.add('border-red-500');
                 confirmInput.classList.remove('border-gray-300');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                return false;
+                isValid = false;
             } else {
-                // Either both empty or confirm password is empty (OK for edit since password change is optional)
                 errorDiv.classList.add('hidden');
                 confirmInput.classList.remove('border-red-500');
                 confirmInput.classList.add('border-gray-300');
+            }
+
+            // Enable/disable submit button based on validation
+            if (!password && !confirmPassword) {
+                // Both empty - OK for edit since password change is optional
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                return true;
+            } else if (isValid && password && confirmPassword && password === confirmPassword && password.length >= 8) {
+                // Valid passwords provided
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                // Invalid state
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
+
+            return isValid;
         }
 
         // Setup event listeners for Add Parish form
@@ -553,10 +595,17 @@
         // Clear validation functions
         function clearAddParishValidation() {
             const errorDiv = document.getElementById('password_error');
+            const lengthErrorDiv = document.getElementById('password_length_error');
             const submitBtn = document.getElementById('add_submit_btn');
+            const passwordInput = document.getElementById('password');
             const confirmInput = document.getElementById('password_confirmation');
             
             if (errorDiv) errorDiv.classList.add('hidden');
+            if (lengthErrorDiv) lengthErrorDiv.classList.add('hidden');
+            if (passwordInput) {
+                passwordInput.classList.remove('border-red-500');
+                passwordInput.classList.add('border-gray-300');
+            }
             if (confirmInput) {
                 confirmInput.classList.remove('border-red-500');
                 confirmInput.classList.add('border-gray-300');
@@ -569,10 +618,17 @@
 
         function clearEditValidation() {
             const errorDiv = document.getElementById('edit_password_error');
+            const lengthErrorDiv = document.getElementById('edit_password_length_error');
             const submitBtn = document.getElementById('edit_submit_btn');
+            const passwordInput = document.getElementById('edit_password');
             const confirmInput = document.getElementById('edit_password_confirmation');
             
             if (errorDiv) errorDiv.classList.add('hidden');
+            if (lengthErrorDiv) lengthErrorDiv.classList.add('hidden');
+            if (passwordInput) {
+                passwordInput.classList.remove('border-red-500');
+                passwordInput.classList.add('border-gray-300');
+            }
             if (confirmInput) {
                 confirmInput.classList.remove('border-red-500');
                 confirmInput.classList.add('border-gray-300');
