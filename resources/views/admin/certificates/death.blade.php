@@ -9,7 +9,7 @@
                 <div class="mb-6"> 
                     <form action="{{ route('admin.certificates.death') }}" method="GET" class="flex gap-3"> 
                         <input type="text" name="search" placeholder="Search by name, parish, or certificate ID..." value="{{ request('search') }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"> 
-                        <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-indigo-900 transition-colors">Search</button>
+                        <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-900 transition-colors">Search</button>
                         @if(request('search')) 
                             <a href="{{ route('admin.certificates.death') }}" class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">Clear</a> 
                         @endif 
