@@ -84,4 +84,32 @@ class LoginController extends Controller
         
         return route('parishioner.dashboard');
     }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        // Check if the email exists in the database
+        $user = \App\Models\User::where('email', $request->email)->first();
+        
+        if (!$user) {
+            // Email doesn't exist
+            return redirect()->back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'This email address is not registered.',
+                ]);
+        } else {
+            // Email exists but password is wrong
+            return redirect()->back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'password' => 'The password you entered is incorrect.',
+                ]);
+        }
+    }
 }
