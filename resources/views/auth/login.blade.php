@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Church Documentation System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,7 +21,7 @@
         }
     </style>
 </head>
-<body class="m-0 p-0 min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-600 font-['Inter']">
+<body class="m-0 p-0 min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-600 font-['Poppins']">
     
     <div class="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md text-center">
         <div>
