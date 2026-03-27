@@ -16,7 +16,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.bunny.net/css?family=Poppins:wght@300;400;500;600;700" rel="stylesheet">
 
     <!-- Shepherd.js for Onboarding Tour -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/css/shepherd.css"/>
@@ -26,7 +26,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <style>
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; margin: 0; }
+        body { background: #f8fafc; font-family: 'Poppins', sans-serif; margin: 0; }
         .dropdown-content {
             display: none;
         }
