@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>DOT My Sacrament - Parish Calendar</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/ditascom-logo.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/ditascom-logo.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/ditascom-logo.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/ditascom-logo.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/ditascom-logo.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/ditascom-logo.png') }}">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -146,8 +147,9 @@
     }
   </style>
 
-  <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/calendar.css') }}?v={{ time() }}">
 </head>
+
 <body class="bg-gray-50">
 
   <!-- Header -->
@@ -157,7 +159,8 @@
       <span class="text-white text-xl font-semibold">DOT My Sacrament</span>
     </div>
     <div class="flex gap-4 items-center">
-      <a href="{{ route('certificate.verification') }}" class="text-white hover:text-gray-200 transition flex items-center gap-2">
+      <a href="{{ route('certificate.verification') }}"
+        class="text-white hover:text-gray-200 transition flex items-center gap-2">
         <i class="fas fa-certificate"></i>
         <span class="hidden sm:inline">Verify Certificate</span>
       </a>
@@ -165,7 +168,8 @@
         <i class="fas fa-question-circle"></i>
         <span class="hidden sm:inline">FAQ</span>
       </a>
-      <a href="{{ route('login') }}" class="bg-white text-[#1a237e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+      <a href="{{ route('login') }}"
+        class="bg-white text-[#1a237e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
         Login
       </a>
     </div>
@@ -176,19 +180,16 @@
     <label for="parish-search">Select Parish</label>
     <div class="select-container">
       <div class="parish-dropdown-wrapper">
-        <input type="text" 
-               id="parish-search" 
-               placeholder="Search for a parish..." 
-               class="parish-search-input"
-               autocomplete="off">
+        <input type="text" id="parish-search" placeholder="Search for a parish..." class="parish-search-input"
+          autocomplete="off">
         <input type="hidden" id="parish-select" value="">
-        
+
         <!-- Dropdown options -->
         <div id="parish-dropdown" class="parish-dropdown hidden">
           <div class="parish-options" id="parish-options">
             <!-- Parishes will be dynamically loaded -->
           </div>
-          
+
           <!-- Pagination controls -->
           <div class="parish-pagination" id="parish-pagination">
             <!-- Pagination will be dynamically added -->
@@ -198,21 +199,57 @@
     </div>
   </div>
 
-  <div class="calendar-card">
-    <div class="text-xl font-semibold text-black mb-5">Calendar</div>
-    <div class="calendar-header">
-      <button id="prevMonth" class="nav-button">
-        <i class="fas fa-chevron-left"></i>
-        <span class="ml-2 hidden sm:inline">Previous</span>
-      </button>
-      <span id="calendar-month-year" class="text-lg font-medium text-center">October 2025</span>
-      <button id="nextMonth" class="nav-button">
-        <span class="mr-2 hidden sm:inline">Next</span>
-        <i class="fas fa-chevron-right"></i>
-      </button>
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-12">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+      <div>
+        <h2 class="text-[#312e81] text-xl font-medium mb-1">Liturgical Calendar</h2>
+        <p class="text-gray-500 text-sm">Explore upcoming masses, community gatherings, and parish services.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <!-- Navigation arrows -->
+        <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 h-[40px]">
+          <button id="prevMonth" class="px-3 text-gray-500 hover:text-gray-800 border-r border-gray-200">
+            <i class="fas fa-chevron-left text-sm"></i>
+          </button>
+          <div class="px-4 font-medium text-gray-700 text-sm min-w-[140px] flex items-center justify-center"
+            id="calendar-month-year"></div>
+          <button id="nextMonth" class="px-3 text-gray-500 hover:text-gray-800 border-l border-gray-200">
+            <i class="fas fa-chevron-right text-sm"></i>
+          </button>
+        </div>
+
+
+      </div>
     </div>
-    <div class="calendar-grid" id="calendar-grid">
-      <!-- Calendar will be rendered here by JavaScript -->
+
+    <!-- Calendar Grid Wrapper -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <!-- Days of week -->
+      <div class="grid grid-cols-7 border-b border-gray-200">
+        <div class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">SUN</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          MON</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          TUE</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          WED</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          THU</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          FRI</div>
+        <div
+          class="py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-l border-gray-200">
+          SAT</div>
+      </div>
+      <!-- Days grid -->
+      <div class="grid grid-cols-7 bg-gray-100 gap-[1px]" id="calendar-grid">
+        <!-- Calendar will be rendered here by JavaScript -->
+      </div>
     </div>
   </div>
 
@@ -220,12 +257,13 @@
   <div class="footer">
     <div>© 2024 DOT My Sacrament. All rights reserved</div>
   </div>
-<script src='https://cdn.jotfor.ms/agent/embedjs/019a3f6363b270f9bb21ce6bed14513d2400/embed.js'>
-</script>
+  <script src='https://cdn.jotfor.ms/agent/embedjs/019a3f6363b270f9bb21ce6bed14513d2400/embed.js'>
+  </script>
 
   <!-- JavaScript -->
-  <script src="{{ asset('js/parish-dropdown.js') }}"></script>
-  <script src="{{ asset('js/calendar.js') }}"></script>
+  <script src="{{ asset('js/parish-dropdown.js') }}?v={{ time() }}"></script>
+  <script src="{{ asset('js/calendar.js') }}?v={{ time() }}"></script>
 
 </body>
+
 </html>
