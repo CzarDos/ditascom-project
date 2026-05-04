@@ -52,7 +52,7 @@ const parishEvents = {
 /**
  * Initialize the calendar when DOM is loaded
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   initializeCalendar();
   initializeParishSelector();
   initializeChatbot();
@@ -126,16 +126,9 @@ function renderCalendar(month, year) {
   monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
 
-  // Clear existing calendar content but keep headers
-  calendarGrid.innerHTML = `
-    <div class="day-header">Sun</div>
-    <div class="day-header">Mon</div>
-    <div class="day-header">Tue</div>
-    <div class="day-header">Wed</div>
-    <div class="day-header">Thu</div>
-    <div class="day-header">Fri</div>
-    <div class="day-header">Sat</div>
-  `;
+  // Clear existing calendar content
+  calendarGrid.innerHTML = '';
+
 
 
   // Calculate first day of month and number of days
@@ -170,52 +163,107 @@ function renderCalendar(month, year) {
 function createDayElement(day, month, year, today) {
   const dayElement = document.createElement('div');
   const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-  
+  const dateObj = new Date(year, month, day);
+  const dayOfWeek = dateObj.getDay();
+
   // Check if this is today
-  const isToday = day === today.getDate() && 
-                  month === today.getMonth() && 
-                  year === today.getFullYear();
+  const isToday = day === today.getDate() &&
+    month === today.getMonth() &&
+    year === today.getFullYear();
 
-
-  // Base classes
   let dayClasses = 'day';
   if (isToday) {
     dayClasses += ' today';
   }
 
-
-  // Check for events on this date
+  // Get specific events
   const dayEvents = getEventsForDate(dateString);
-  if (dayEvents.length > 0) {
+  // Get repeating mass schedules
+  const massSchedules = getMassSchedulesForDay(dayOfWeek);
+
+  const allEvents = [];
+
+  // Format mass schedules
+  massSchedules.forEach(mass => {
+    const massTitle = mass.type === 'others' && mass.customType ? mass.customType : (mass.type === 'Regular' ? 'Regular Mass' : `${mass.type} Mass`);
+    allEvents.push({
+      title: massTitle,
+      time: mass.time,
+      style: getEventStyle(massTitle),
+      original: Object.assign({}, mass, { isMass: true })
+    });
+  });
+
+  // Format events
+  dayEvents.forEach(event => {
+    const displayType = event.customType || event.type || event.title;
+    allEvents.push({
+      title: event.title || displayType,
+      time: event.time,
+      style: getEventStyle(event.title || displayType),
+      original: event
+    });
+  });
+
+  // Sort by time
+  allEvents.sort((a, b) => {
+    if (!a.time) return -1;
+    if (!b.time) return 1;
+    return a.time.localeCompare(b.time);
+  });
+
+  if (allEvents.length > 0) {
     dayClasses += ' has-events';
   }
 
-
   dayElement.className = dayClasses;
-
 
   // Create day content
   const dayNumber = document.createElement('div');
-  dayNumber.className = 'day-number';
+  dayNumber.className = 'day-number ' + (!isToday ? 'text-gray-400' : '');
   dayNumber.textContent = day;
   dayElement.appendChild(dayNumber);
 
+  const eventsContainer = document.createElement('div');
+  eventsContainer.className = 'events-container';
+  dayElement.appendChild(eventsContainer);
 
-  // Add event indicators (will be hidden on mobile via CSS)
-  dayEvents.forEach(event => {
-    const eventIndicator = document.createElement('div');
-    eventIndicator.className = 'event-indicator';
-    eventIndicator.textContent = event.title;
-    eventIndicator.title = `${event.title} at ${event.time}`;
-    dayElement.appendChild(eventIndicator);
+  allEvents.forEach(evt => {
+    const evtEl = document.createElement('div');
+    evtEl.className = `event-block ${evt.style}`;
+
+    let timeDisplay = "";
+    if (evt.time) {
+      if (evt.time.includes(':') && !evt.time.includes('M')) {
+        const [h, m] = evt.time.split(':');
+        let hour = parseInt(h);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        hour = hour % 12 || 12;
+        timeDisplay = `${hour}:${m} ${ampm} - `;
+      } else {
+        timeDisplay = `${evt.time} - `;
+      }
+    }
+
+    evtEl.textContent = `${timeDisplay}${evt.title}`;
+    evtEl.title = `${timeDisplay}${evt.title}`;
+    eventsContainer.appendChild(evtEl);
   });
 
-
   // Add click event listener
-  dayElement.addEventListener('click', () => handleDayClick(day, month, year, dayEvents));
-
+  dayElement.addEventListener('click', () => handleDayClick(day, month, year, dayEvents, massSchedules));
 
   return dayElement;
+}
+
+function getEventStyle(title) {
+  if (!title) return 'light-blue';
+  title = title.toLowerCase();
+  // Using picture matches
+  if (title.includes('service') || title.includes('pentecost')) return 'solid-dark';
+  if (title.includes('youth') || title.includes('tea')) return 'light-purple';
+  if (title.includes('council') || title.includes('meeting')) return 'light-red';
+  return 'light-blue';
 }
 
 
@@ -225,25 +273,22 @@ function createDayElement(day, month, year, today) {
  * @returns {Array} Array of events for the date
  */
 function getEventsForDate(dateString) {
-  // Return empty array if no parish is selected
   if (!selectedParish) {
     return [];
   }
 
-  // Get events from localStorage (added by subadmin)
   const storedEvents = JSON.parse(localStorage.getItem('events') || '[]');
-  
-  // Filter events for this specific date and selected parish (only actual events, not mass schedules)
+
   const eventsForDate = storedEvents.filter(event => {
     if (!event.isEvent) return false; // Skip mass schedules
     if (event.date !== dateString) return false; // Wrong date
-    // Match parish by slug
+
     const eventParishSlug = generateParishSlug(event.parish_name || '');
     return eventParishSlug === selectedParish;
   });
 
-  // Also check hardcoded parish events if a parish is selected
-  if (selectedParish && parishEvents[selectedParish]) {
+  // Also check hardcoded parish events
+  if (parishEvents[selectedParish]) {
     const parishEventsForDate = parishEvents[selectedParish].events.filter(event => event.date === dateString);
     return [...eventsForDate, ...parishEventsForDate];
   }
@@ -267,22 +312,21 @@ function generateParishSlug(parishName) {
  * @returns {Array} Array of mass schedules for the day
  */
 function getMassSchedulesForDay(dayOfWeek) {
-  // Return empty array if no parish is selected
   if (!selectedParish) {
     return [];
   }
 
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const dayName = dayNames[dayOfWeek];
-  
+
   // Get mass schedules from localStorage
   const storedEvents = JSON.parse(localStorage.getItem('events') || '[]');
-  
-  // Filter mass schedules for this day and selected parish
+
+  // Filter mass schedules for this day
   return storedEvents.filter(event => {
     if (event.isEvent) return false; // Skip events
     if (event.day !== dayName) return false; // Wrong day
-    // Match parish by slug
+
     const eventParishSlug = generateParishSlug(event.parish_name || '');
     return eventParishSlug === selectedParish;
   });
@@ -295,15 +339,16 @@ function getMassSchedulesForDay(dayOfWeek) {
  * @param {number} year - Full year
  * @param {Array} events - Events for this day
  */
-function handleDayClick(day, month, year, events) {
+function handleDayClick(day, month, year, events, massSchedules = []) {
   const dateString = `${monthNames[month]} ${day}, ${year}`;
   const date = new Date(year, month, day);
   const dayOfWeek = date.getDay();
-  
-  // Get mass schedules for this day of the week
-  const massSchedules = getMassSchedulesForDay(dayOfWeek);
-  
-   // Create modal content
+
+  if (massSchedules.length === 0) {
+    massSchedules = getMassSchedulesForDay(dayOfWeek);
+  }
+
+  // Create modal content
   let modalContent = `<div style="
     position: fixed;
     top: 0;
@@ -348,18 +393,20 @@ function handleDayClick(day, month, year, events) {
       const ampm = hour >= 12 ? 'PM' : 'AM';
       const hour12 = hour % 12 || 12;
       const formattedTime = `${hour12}:${minutes} ${ampm}`;
-      
+
+      const massTitle = mass.type === 'others' && mass.customType ? mass.customType : (mass.type === 'Regular' ? 'Regular Mass' : `${mass.type} Mass`);
+      const styleClass = getEventStyle(massTitle);
+      const styleStr = getModalStyleForClass(styleClass);
+
       modalContent += `
         <div style="
           padding: 1rem 1.25rem;
           margin-bottom: 0.75rem;
-          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
           border-radius: 0.75rem;
-          border-left: 5px solid #f59e0b;
-          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+          ${styleStr.container}
         ">
-          <div style="font-weight: 600; color: #92400e; font-size: 1.125rem; margin-bottom: 0.5rem;">${mass.type} Mass</div>
-          <div style="font-size: 1rem; color: #78350f; display: flex; align-items: center;">
+          <div style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem; ${styleStr.title}">${massTitle}</div>
+          <div style="font-size: 1rem; display: flex; align-items: center; ${styleStr.text}">
             <i class="fas fa-clock" style="margin-right: 0.5rem; font-size: 1rem;"></i>
             <span style="font-weight: 500;">${formattedTime}</span>
           </div>
@@ -375,17 +422,20 @@ function handleDayClick(day, month, year, events) {
         <i class="fas fa-calendar-alt" style="margin-right: 0.75rem; font-size: 1.25rem;"></i>Events
       </h4>`;
     events.forEach(event => {
+      const displayType = event.customType || event.type || event.title;
+      const title = event.title || displayType;
+      const styleClass = getEventStyle(title);
+      const styleStr = getModalStyleForClass(styleClass);
+
       modalContent += `
         <div style="
           padding: 1rem 1.25rem;
           margin-bottom: 0.75rem;
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
           border-radius: 0.75rem;
-          border-left: 5px solid #1a237e;
-          box-shadow: 0 2px 8px rgba(26, 35, 126, 0.2);
+          ${styleStr.container}
         ">
-          <div style="font-weight: 600; color: #1e3a8a; font-size: 1.125rem; margin-bottom: 0.5rem;">${event.title}</div>
-          <div style="font-size: 1rem; color: #1e40af; display: flex; align-items: center;">
+          <div style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem; ${styleStr.title}">${title}</div>
+          <div style="font-size: 1rem; display: flex; align-items: center; ${styleStr.text}">
             <i class="fas fa-clock" style="margin-right: 0.5rem; font-size: 1rem;"></i>
             <span style="font-weight: 500;">${event.time}</span>
           </div>
@@ -393,7 +443,7 @@ function handleDayClick(day, month, year, events) {
     });
     modalContent += `</div>`;
   }
-  
+
   // Show message if no events or mass schedules
   if (events.length === 0 && massSchedules.length === 0) {
     modalContent += `
@@ -433,14 +483,14 @@ function handleDayClick(day, month, year, events) {
 
   // Add modal to page
   document.body.insertAdjacentHTML('beforeend', modalContent);
-  
+
   // Add event listener to close button
   const modalElement = document.body.lastElementChild;
   const closeBtn = modalElement.querySelector('.modal-close-btn');
   closeBtn.addEventListener('click', () => {
     modalElement.remove();
   });
-  
+
   // Also allow clicking outside to close
   modalElement.addEventListener('click', (e) => {
     if (e.target === modalElement) {
@@ -455,7 +505,7 @@ function handleDayClick(day, month, year, events) {
  */
 function initializeParishSelector() {
   const parishSelect = document.getElementById('parish-select');
-  
+
   if (!parishSelect) {
     console.error('Parish selector not found');
     return;
@@ -472,10 +522,10 @@ function initializeParishSelector() {
  */
 function handleParishChange(event) {
   selectedParish = event.target.value;
-  
+
   // Re-render calendar to show events for selected parish
   renderCalendar(currentMonth, currentYear);
-  
+
   // Update chatbot context
   updateChatbotContext();
 }
@@ -540,7 +590,7 @@ function closeChatbot() {
 function handleSendMessage() {
   const userInput = document.getElementById('userInput');
   const message = userInput.value.trim();
-  
+
   if (message) {
     processUserMessage(message);
     userInput.value = '';
@@ -565,10 +615,10 @@ function handleUserInputKeypress(event) {
  */
 function processUserMessage(message) {
   addMessageToChat(message, true);
-  
+
   // Generate bot response
   const response = generateBotResponse(message.toLowerCase());
-  
+
   // Add bot response with delay
   setTimeout(() => {
     addMessageToChat(response, false);
@@ -585,14 +635,14 @@ function addMessageToChat(message, isUser = false) {
   const chatMessages = document.getElementById('chatMessages');
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-  
+
   const messageContent = document.createElement('div');
   messageContent.className = 'message-content';
   messageContent.textContent = message;
-  
+
   messageDiv.appendChild(messageContent);
   chatMessages.appendChild(messageDiv);
-  
+
   // Scroll to bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -607,7 +657,7 @@ function generateBotResponse(message) {
   // Parish-specific responses
   if (selectedParish && parishEvents[selectedParish]) {
     const parishName = parishEvents[selectedParish].name;
-    
+
     if (message.includes('events') || message.includes('schedule')) {
       const upcomingEvents = parishEvents[selectedParish].events
         .slice(0, 3)
@@ -639,4 +689,39 @@ function generateBotResponse(message) {
 
 
   return "I'm sorry, I don't have information about that. Please contact our parish office for more details or try asking about mass schedules, events, or contact information.";
+}
+
+function getModalStyleForClass(styleClass) {
+  switch (styleClass) {
+    case 'light-blue':
+      return {
+        container: 'background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%); border-left: 5px solid #3730a3; box-shadow: 0 2px 8px rgba(55, 48, 163, 0.15);',
+        title: 'color: #312e81;',
+        text: 'color: #4338ca;'
+      };
+    case 'light-purple':
+      return {
+        container: 'background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-left: 5px solid #9333ea; box-shadow: 0 2px 8px rgba(147, 51, 234, 0.15);',
+        title: 'color: #6b21a8;',
+        text: 'color: #7e22ce;'
+      };
+    case 'light-red':
+      return {
+        container: 'background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border-left: 5px solid #dc2626; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);',
+        title: 'color: #991b1b;',
+        text: 'color: #b91c1c;'
+      };
+    case 'solid-dark':
+      return {
+        container: 'background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-left: 5px solid #475569; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.3);',
+        title: 'color: #f8fafc;',
+        text: 'color: #cbd5e1;'
+      };
+    default:
+      return {
+        container: 'background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%); border-left: 5px solid #3730a3; box-shadow: 0 2px 8px rgba(55, 48, 163, 0.15);',
+        title: 'color: #312e81;',
+        text: 'color: #4338ca;'
+      };
+  }
 }
