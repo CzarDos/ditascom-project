@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,25 +15,28 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="font-['Inter'] bg-gray-100 flex flex-col h-screen overflow-hidden">
     <!-- Navbar -->
     <nav class="bg-[#1a237e] px-6 py-3 flex justify-between items-center text-white h-[60px]">
         <a href="#" class="flex items-center gap-2 text-white no-underline font-semibold">
-            <img class="w-10 h-10 mr-2" src="{{ asset('images/ditascom-logo.png') }}" alt="Logo"> 
+            <img class="w-10 h-10 mr-2" src="{{ asset('images/ditascom-logo.png') }}" alt="Logo">
             DOT My Sacrament
         </a>
         <div class="flex items-center gap-4">
             <div class="relative group">
                 <a href="#" class="text-white text-lg">
-                    <i class="fas fa-user rounded-full border-2 border-white w-8 h-8 flex items-center justify-center"></i>
+                    <i
+                        class="fas fa-user rounded-full border-2 border-white w-8 h-8 flex items-center justify-center"></i>
                 </a>
                 <div class="hidden group-hover:block absolute right-0 bg-white min-w-[160px] shadow-lg z-10 rounded-md">
-                    <a href="{{ route('subadmin.profile') }}" class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
+                    <a href="{{ route('subadmin.profile') }}"
+                        class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
                         <i class="fas fa-user-circle mr-2"></i> Profile
                     </a>
-                    <a href="{{ route('logout') }}" 
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        class="text-gray-800 px-4 py-3 block text-sm hover:bg-gray-100">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </div>
@@ -50,44 +54,45 @@
         <aside class="w-[250px] bg-white h-full border-r border-gray-300 overflow-y-auto">
             <ul class="list-none pt-6">
                 <li>
-                    <a href="{{ route('subadmin.dashboard') }}" 
-                       class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
+                    <a href="{{ route('subadmin.dashboard') }}"
+                        class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
                         <i class="fas fa-th-large mr-3 w-5"></i>
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('subadmin.events') }}" 
-                       class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all bg-indigo-50 text-[#1a237e]">
+                    <a href="{{ route('subadmin.events') }}"
+                        class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all bg-indigo-50 text-[#1a237e]">
                         <i class="fas fa-calendar-alt mr-3 w-5"></i>
                         <span>Events</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
+                    <a href="#"
+                        class="flex items-center px-6 py-3 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
                         <i class="fas fa-file-alt mr-3 w-5"></i>
                         Certificates
                     </a>
                     <ul class="list-none ml-6">
                         <li>
-                            <a href="{{ route('subadmin.certificates.add', ['type' => 'baptismal']) }}" 
-                               class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
+                            <a href="{{ route('subadmin.certificates.add', ['type' => 'baptismal']) }}"
+                                class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
                                 <i class="fas fa-chevron-right mr-3 w-5"></i> Add Baptismal
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('subadmin.certificates.add', ['type' => 'death']) }}" 
-                               class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
+                            <a href="{{ route('subadmin.certificates.add', ['type' => 'death']) }}"
+                                class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
                                 <i class="fas fa-chevron-right mr-3 w-5"></i> Add Death
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('subadmin.certificates.add', ['type' => 'confirmation']) }}" 
-                               class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
+                            <a href="{{ route('subadmin.certificates.add', ['type' => 'confirmation']) }}"
+                                class="flex items-center px-6 py-2 text-gray-800 no-underline text-sm transition-all hover:bg-indigo-50 hover:text-[#1a237e]">
                                 <i class="fas fa-chevron-right mr-3 w-5"></i> Add Confirmation
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
             </ul>
@@ -98,13 +103,13 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-semibold text-gray-800">Events & Mass Schedule</h1>
                 <div class="flex gap-3">
-                    <a href="#" onclick="openEventModal()" 
-                       class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm no-underline hover:bg-[#0d1642]">
+                    <a href="#" onclick="openEventModal()"
+                        class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm no-underline hover:bg-[#0d1642]">
                         <i class="fas fa-plus"></i>
                         Add Event
                     </a>
-                    <a href="#" onclick="openMassModal()" 
-                       class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm no-underline hover:bg-[#0d1642]">
+                    <a href="#" onclick="openMassModal()"
+                        class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm no-underline hover:bg-[#0d1642]">
                         <i class="fas fa-plus"></i>
                         Add Mass Schedule
                     </a>
@@ -118,10 +123,18 @@
                     <table class="w-full border-collapse mt-4">
                         <thead>
                             <tr>
-                                <th class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">Day</th>
-                                <th class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">Time</th>
-                                <th class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">Type</th>
-                                <th class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">Actions</th>
+                                <th
+                                    class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">
+                                    Day</th>
+                                <th
+                                    class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">
+                                    Time</th>
+                                <th
+                                    class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">
+                                    Type</th>
+                                <th
+                                    class="px-3 py-3 text-left border-b border-gray-300 font-semibold text-gray-800 bg-gray-50">
+                                    Actions</th>
                             </tr>
                         </thead>
                         <tbody id="massScheduleBody">
@@ -146,30 +159,31 @@
         <div class="relative bg-white w-[90%] max-w-[500px] mx-auto my-12 p-6 rounded-xl">
             <div class="flex justify-between items-center mb-4">
                 <h2 id="eventModalTitle" class="text-xl font-semibold text-gray-800">Add Event</h2>
-                <button onclick="closeEventModal()" class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
+                <button onclick="closeEventModal()"
+                    class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
             </div>
             <form id="eventForm" onsubmit="handleEventSubmit(event)">
                 <input type="hidden" id="eventId">
                 <div class="mb-4">
                     <label for="eventTitle" class="block mb-2 text-gray-800 font-medium">Event Title</label>
-                    <input type="text" id="eventTitle" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <input type="text" id="eventTitle" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
                 <div class="mb-4">
                     <label for="eventDate" class="block mb-2 text-gray-800 font-medium">Date</label>
-                    <input type="date" id="eventDate" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <input type="date" id="eventDate" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
                 <div class="mb-4">
                     <label for="eventTime" class="block mb-2 text-gray-800 font-medium">Time</label>
-                    <input type="time" id="eventTime" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <input type="time" id="eventTime" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
                 <div class="mb-4">
                     <label for="eventType" class="block mb-2 text-gray-800 font-medium">Event Type</label>
-                    <select id="eventType" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]"
-                            onchange="handleEventTypeChange()">
+                    <select id="eventType" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]"
+                        onchange="handleEventTypeChange()">
                         <option value="mass">Mass</option>
                         <option value="wedding">Wedding</option>
                         <option value="baptism">Baptism</option>
@@ -178,11 +192,12 @@
                 </div>
                 <div class="mb-4 hidden" id="otherEventTypeDiv">
                     <label for="otherEventType" class="block mb-2 text-gray-800 font-medium">Specify Event Type</label>
-                    <input type="text" id="otherEventType" 
-                           placeholder="Enter custom event type..." 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <input type="text" id="otherEventType" placeholder="Enter custom event type..."
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
-                <button type="submit" class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm hover:bg-[#0d1642]">Save Event</button>
+                <button type="submit"
+                    class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm hover:bg-[#0d1642]">Save
+                    Event</button>
             </form>
         </div>
     </div>
@@ -192,14 +207,15 @@
         <div class="relative bg-white w-[90%] max-w-[500px] mx-auto my-12 p-6 rounded-xl">
             <div class="flex justify-between items-center mb-4">
                 <h2 id="massModalTitle" class="text-xl font-semibold text-gray-800">Add Mass Schedule</h2>
-                <button onclick="closeMassModal()" class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
+                <button onclick="closeMassModal()"
+                    class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
             </div>
             <form id="massForm" onsubmit="handleMassSubmit(event)">
                 <input type="hidden" id="massId">
                 <div class="mb-4">
                     <label for="massDay" class="block mb-2 text-gray-800 font-medium">Day</label>
-                    <select id="massDay" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <select id="massDay" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                         <option value="Sunday">Sunday</option>
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
@@ -211,18 +227,26 @@
                 </div>
                 <div class="mb-4">
                     <label for="massTime" class="block mb-2 text-gray-800 font-medium">Time</label>
-                    <input type="time" id="massTime" required 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <input type="time" id="massTime" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
                 </div>
                 <div class="mb-4">
                     <label for="massType" class="block mb-2 text-gray-800 font-medium">Type</label>
-                    <select id="massType" required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                    <select id="massType" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]"
+                        onchange="handleMassTypeChange()">
                         <option value="Regular">Regular</option>
-                        <option value="Special">Special</option>
+                        <option value="others">Others</option>
                     </select>
                 </div>
-                <button type="submit" class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm hover:bg-[#0d1642]">Save Mass Schedule</button>
+                <div class="mb-4 hidden" id="otherMassTypeDiv">
+                    <label for="otherMassType" class="block mb-2 text-gray-800 font-medium">Specify Mass Type</label>
+                    <input type="text" id="otherMassType" placeholder="Enter custom mass type..."
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-[#1a237e]">
+                </div>
+                <button type="submit"
+                    class="bg-[#1a237e] text-white border-none px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 text-sm hover:bg-[#0d1642]">Save
+                    Mass Schedule</button>
             </form>
         </div>
     </div>
@@ -232,7 +256,8 @@
         <div class="relative bg-white max-w-[300px] mx-auto my-12 p-6 rounded-xl text-center">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">Success!</h2>
-                <button onclick="closeSuccessModal()" class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
+                <button onclick="closeSuccessModal()"
+                    class="bg-transparent border-none text-2xl cursor-pointer text-gray-600 hover:text-gray-800">&times;</button>
             </div>
             <div class="py-5">
                 <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
@@ -242,7 +267,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="px-6 py-4 bg-white border-t border-gray-300 text-xs text-gray-600 flex justify-center h-[50px] " >
+    <footer class="px-6 py-4 bg-white border-t border-gray-300 text-xs text-gray-600 flex justify-center h-[50px] ">
         <div>© 2024 DOT My Sacrament. All rights reserved.</div>
     </footer>
 
@@ -266,7 +291,7 @@
             const eventType = document.getElementById('eventType').value;
             const otherEventTypeDiv = document.getElementById('otherEventTypeDiv');
             const otherEventTypeInput = document.getElementById('otherEventType');
-            
+
             if (eventType === 'other') {
                 otherEventTypeDiv.classList.remove('hidden');
                 otherEventTypeInput.required = true;
@@ -277,11 +302,26 @@
             }
         }
 
+        function handleMassTypeChange() {
+            const massType = document.getElementById('massType').value;
+            const otherMassTypeDiv = document.getElementById('otherMassTypeDiv');
+            const otherMassTypeInput = document.getElementById('otherMassType');
+
+            if (massType === 'others') {
+                otherMassTypeDiv.classList.remove('hidden');
+                otherMassTypeInput.required = true;
+            } else {
+                otherMassTypeDiv.classList.add('hidden');
+                otherMassTypeInput.required = false;
+                otherMassTypeInput.value = '';
+            }
+        }
+
         function openEventModal(eventId = null) {
             const modal = document.getElementById('eventModal');
             const title = document.getElementById('eventModalTitle');
             const form = document.getElementById('eventForm');
-            
+
             // Load events from localStorage
             const events = JSON.parse(localStorage.getItem('events') || '[]');
 
@@ -291,14 +331,14 @@
                     console.error('Event not found:', eventId);
                     return;
                 }
-                
+
                 title.textContent = 'Edit Event';
                 document.getElementById('eventId').value = event.id;
                 document.getElementById('eventTitle').value = event.title;
                 document.getElementById('eventDate').value = event.date;
                 document.getElementById('eventTime').value = event.time;
                 document.getElementById('eventType').value = event.type;
-                
+
                 // Handle "other" event type
                 if (event.type === 'other' && event.customType) {
                     document.getElementById('otherEventType').value = event.customType;
@@ -331,7 +371,7 @@
             const modal = document.getElementById('massModal');
             const title = document.getElementById('massModalTitle');
             const form = document.getElementById('massForm');
-            
+
             // Load events from localStorage
             const events = JSON.parse(localStorage.getItem('events') || '[]');
 
@@ -341,16 +381,28 @@
                     console.error('Mass schedule not found:', massId);
                     return;
                 }
-                
+
                 title.textContent = 'Edit Mass Schedule';
                 document.getElementById('massId').value = mass.id;
                 document.getElementById('massDay').value = mass.day;
                 document.getElementById('massTime').value = mass.time;
                 document.getElementById('massType').value = mass.type;
+
+                if (mass.type === 'others' && mass.customType) {
+                    document.getElementById('otherMassType').value = mass.customType;
+                    document.getElementById('otherMassTypeDiv').classList.remove('hidden');
+                    document.getElementById('otherMassType').required = true;
+                } else {
+                    document.getElementById('otherMassTypeDiv').classList.add('hidden');
+                    document.getElementById('otherMassType').required = false;
+                    document.getElementById('otherMassType').value = '';
+                }
             } else {
                 title.textContent = 'Add Mass Schedule';
                 form.reset();
                 document.getElementById('massId').value = '';
+                document.getElementById('otherMassTypeDiv').classList.add('hidden');
+                document.getElementById('otherMassType').required = false;
             }
 
             modal.classList.remove('hidden');
@@ -369,7 +421,7 @@
             messageElement.textContent = message;
             modal.classList.remove('hidden');
             modal.classList.add('flex', 'items-center', 'justify-center');
-            
+
             setTimeout(() => {
                 closeSuccessModal();
             }, 2000);
@@ -386,7 +438,7 @@
             const form = e.target;
             const eventId = document.getElementById('eventId').value;
             const eventType = document.getElementById('eventType').value;
-            
+
             const eventData = {
                 id: eventId || Date.now().toString(),
                 title: document.getElementById('eventTitle').value,
@@ -408,7 +460,7 @@
             }
 
             let events = JSON.parse(localStorage.getItem('events') || '[]');
-            
+
             if (eventId) {
                 events = events.map(e => e.id === eventId ? eventData : e);
                 showSuccessModal('Event has been updated successfully!');
@@ -434,15 +486,25 @@
             e.preventDefault();
             const form = e.target;
             const massId = document.getElementById('massId').value;
-            
+            const massType = document.getElementById('massType').value;
+
             const massData = {
                 id: massId || Date.now().toString(),
                 day: document.getElementById('massDay').value,
                 time: document.getElementById('massTime').value,
-                type: document.getElementById('massType').value,
+                type: massType,
                 parish_name: PARISH_NAME,
                 isEvent: false
             };
+
+            if (massType === 'others') {
+                const customType = document.getElementById('otherMassType').value.trim();
+                if (!customType) {
+                    alert('Please specify the mass type.');
+                    return;
+                }
+                massData.customType = customType;
+            }
 
             let events = JSON.parse(localStorage.getItem('events') || '[]');
 
@@ -486,9 +548,9 @@
         function renderEvents() {
             const eventList = document.getElementById('eventList');
             const today = new Date();
-            
+
             const events = JSON.parse(localStorage.getItem('events') || '[]');
-            
+
             const upcomingEvents = events
                 .filter(event => {
                     if (!event.isEvent) return false;
@@ -525,14 +587,14 @@
                     </div>
                 </div>
             `;
-        }).join('');
+            }).join('');
         }
 
         function renderMassSchedules() {
             const scheduleBody = document.getElementById('massScheduleBody');
-            
+
             const events = JSON.parse(localStorage.getItem('events') || '[]');
-            
+
             const massSchedules = events
                 .filter(event => !event.isEvent && event.parish_name === PARISH_NAME)
                 .sort((a, b) => {
@@ -542,11 +604,13 @@
                     return a.time.localeCompare(b.time);
                 });
 
-            scheduleBody.innerHTML = massSchedules.map(mass => `
+            scheduleBody.innerHTML = massSchedules.map(mass => {
+                const displayType = mass.type === 'others' && mass.customType ? mass.customType : mass.type;
+                return `
                 <tr>
                     <td class="px-3 py-3 text-left border-b border-gray-300">${mass.day}</td>
                     <td class="px-3 py-3 text-left border-b border-gray-300">${formatTimeHourly(mass.time)}</td>
-                    <td class="px-3 py-3 text-left border-b border-gray-300">${mass.type}</td>
+                    <td class="px-3 py-3 text-left border-b border-gray-300">${displayType}</td>
                     <td class="px-3 py-3 text-left border-b border-gray-300">
                         <div class="flex gap-2">
                             <button onclick="openMassModal('${mass.id}')" 
@@ -560,7 +624,8 @@
                         </div>
                     </td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function getEventIcon(type, customType = null) {
@@ -590,10 +655,11 @@
         }
 
         // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             renderEvents();
             renderMassSchedules();
         });
     </script>
 </body>
+
 </html>
